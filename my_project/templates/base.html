@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Сайт дипломного проекта{% endblock %}</title>
+</head>
+<body>
+    <div>
+        <ul>
+            <li><a href="{% url 'index' %}">Главная страница</a></li>
+            <li><a href="{% url 'catalog' %}">Товары</a></li>
+            <li><a href="{% url 'gallery' %}">Галерея</a></li>
+            <li><a href="{% url 'about' %}">О нас</a></li>
+            <li><a href="{% url 'contacts' %}">Контакты</a></li>
+        </ul>
+    </div>
+    {% block content %}
+        <p>Скоро тут появится текст...</p>
+    {% endblock %}
+</body>
+</html>
