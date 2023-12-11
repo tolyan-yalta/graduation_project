@@ -6,9 +6,10 @@ from django.http import HttpResponse
 
 
 def index(request):
-    html = """
-    <h1>Главная страница.</h1>
-    <p>Это главная страница дипломного проекта.</p>
-    """
+    # html = """
+    # <h1>Главная страница.</h1>
+    # <p>Это главная страница дипломного проекта.</p>
+    # """
     # logger.info("The main page has been loaded.")
-    return HttpResponse(html)
+    return render(request, 'index_app/index.html')
+    # return HttpResponse(html)
