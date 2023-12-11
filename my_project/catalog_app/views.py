@@ -6,10 +6,10 @@ from django.http import HttpResponse
 
 
 def catalog(request):
-    html = """
-    <h1>Страница каталога.</h1>
-    <p>Это страница каталога проекта.</p>
-    """
+    # html = """
+    # <h1>Страница каталога.</h1>
+    # <p>Это страница каталога проекта.</p>
+    # """
     # logger.info("The catalog page has been uploaded.")
-    # return render(request, 'catalog_app/catalog.html')
-    return HttpResponse(html)
+    return render(request, 'catalog_app/catalog.html')
+    # return HttpResponse(html)
