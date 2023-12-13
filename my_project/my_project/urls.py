@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('index_app.urls')),
     path('catalog/', include('catalog_app.urls')),
     path('about/', include('about_app.urls')),
+    path('users/', include('users_app.urls', namespace="users")),
 ]
