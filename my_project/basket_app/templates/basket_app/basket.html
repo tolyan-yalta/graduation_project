@@ -46,6 +46,6 @@
     </table>
     <p class="text-right">
         <a href="{% url 'catalog:catalog' %}" class="button light">Продолжить покупки</a>
-        <a href="#" class="button">Проверить(Заглушка)</a>
+        <a href="{% url 'orders:order_create' %}" class="button">Проверить заказ</a>
     </p>
 {% endblock %}
