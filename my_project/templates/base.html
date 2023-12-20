@@ -1,24 +1,55 @@
+{% load static %}
+{% load catalog_tags %}
+{% load basket_tags %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}Сайт дипломного проекта{% endblock %}</title>
+    <link type="text/css" href="{% static 'catalog_app/css/styles.css' %}" rel="stylesheet" />
+    <link type="text/css" href="{% static 'catalog_app/css/product-container.css' %}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'catalog_app/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <div>
-        <ul>
-            <li><a href="{% url 'index' %}">Главная страница</a></li>
-            <li><a href="{% url 'catalog' %}">Товары</a></li>
-            <li><a href="{% url 'gallery' %}">Галерея</a></li>
-            <li><a href="{% url 'about' %}">О нас</a></li>
-            <li><a href="{% url 'contacts' %}">Контакты</a></li>
-            {% if user.is_authenticated %}
-                <li class="last"> {{user.username}} | <a href="{% url 'users:logout' %}">Выйти</a></li>
-            {% else %}
-                <li class="last"><a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}">Регистрация</a></li>
-            {% endif %}
-        </ul>
-        <div class="clear"></div>
-    </div>
+    
+    {% block mainmenu %}
+        <div class="header">
+            <ul id="mainmenu" class="mainmenu">
+                <li class="logo"><a href="{% url 'index' %}"><div class="logo"></div></a></li>
+                    {% get_menu as menu %}
+                    {% for m in menu %}
+                        <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endfor %}
+                    <li class="cart">
+                        <!-- <div> -->
+                            {% with total_items=basket|length %}
+                                {% if basket|length > 0 %}
+                                    Ваша корзина:
+                                    <a href="{% url 'basket:basket_detail' %}">
+                                        {{ total_items }} item{{ total_items|pluralize }},
+                                        ${{ basket.get_total_price }}
+                                    </a>
+                                {% else %}
+                                    Ваша корзина пуста.
+                                {% endif %}
+                            {% endwith %}
+                        <!-- </div> -->
+                    </li>
+
+                    <li></li>
+
+                    {% if user.is_authenticated %}
+                        <li class="last"> {{user.username}} | <a href="{% url 'users:logout' %}">Выйти</a></li>
+                    {% else %}
+                        <li class="last"><a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}#">Регистрация</a></li>
+                    {% endif %}
+            </ul>
+            <div class="clear"></div>
+        </div>
+    {% endblock mainmenu %}
+
     {% block content %}
         <p>Скоро тут появится текст...</p>
     {% endblock %}
