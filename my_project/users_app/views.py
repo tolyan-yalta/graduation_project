@@ -32,17 +32,17 @@ class LoginUser(LoginView):
 #             if user and user.is_active:
 #                 login(request, user)
 #                 # return HttpResponseRedirect(reverse('home'))
-#                 return HttpResponseRedirect(reverse('catalog'))
-                
-#     else:
-#         form = LoginUserForm()
-#     return render(request, 'users_app/login.html', {'form': form})
+#                 return HttpResponseRedirect(reverse('about'))
+#                 # return HttpResponseRedirect(reverse('catalog:catalog'))          
+    # else:
+    #     form = LoginUserForm()
+    # return render(request, 'users_app/login.html', {'form': form})
 
 
 def logout_user(request):
     logout(request)
     # return HttpResponseRedirect(reverse('users:login'))
-    return HttpResponseRedirect(reverse('about'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def register(request):
