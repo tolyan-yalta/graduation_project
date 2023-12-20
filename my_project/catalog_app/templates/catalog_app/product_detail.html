@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block content %}
+    <div class="category-name">
+        <h3>{{ category_name }}</h3>
+    </div>
+    <div class="product-container">">
+        <div class="product-image">
+            {% if product.image %}
+                <p><img src="{{ product.image.url }}" height="200" alt="{{ product.name }}"></p>
+            {% endif %}
+        </div>
+        <div class="product-header">
+            <h2>{{ product.name }}</h2>
+        </div>
+        <div class="product-description" itemprop="description">
+            {{ product.description }}
+        </div>
+        <div class="product-price">
+            <span>{{ product.price }} ₽</span>
+        </div>
+        <div class="product-buy">
+            <form action="{% url 'basket:basket_add' product.id %}" method="post">
+                {{ basket_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="В корзину">
+            </form>
+        </div>
+        <div class="product-status">
+            {{ product.available }}
+        </div>
+    </div>
+{% endblock %}
