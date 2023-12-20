@@ -1,8 +1,32 @@
 {% extends 'base.html' %}
+{% load catalog_tags %}
+{% load basket_tags %}
 
 {% block title %}Каталог{% endblock %}
 
 {% block content %}
     <h1>Страница "Каталог".</h1>
-    <p>Это страница проекта "Каталог".</p>
+    {% load static %}<img src="{% static 'catalog_app/images/logo.png' %}" alt="My image">
+    <!-- {% include 'catalog_app/includes/nav.html' %} -->
+
+    {% if cat_selected == 0 or cat_selected is None %}
+        <li class="selected">Все категории</li>
+    {% else %}
+        <li><a href="{% url 'catalog:catalog' %}">Все категории</a></li>
+    {% endif %}
+
+    {% show_categories cat_selected %}
+
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <!-- <p >{{ product.content }}</p> -->
+            <a href="{% url 'catalog:product_detail' product.id product.slug %}">{{ product.name }}</a><br>
+            <hr>
+
+        </li>
+        {% endfor %}
+</ul>
+
 {% endblock %}
