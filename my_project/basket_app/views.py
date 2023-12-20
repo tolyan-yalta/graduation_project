@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from catalog_app.models import Product
 from .basket import Basket
 from .forms import BasketAddProductForm
+from django.contrib.auth.decorators import login_required
 
 
 @require_POST
@@ -17,12 +18,15 @@ def basket_add(request, product_id):
                  update_quantity=cd['update'])
     return redirect('basket:basket_detail')
 
+
 def basket_remove(request, product_id):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
     basket.remove(product)
     return redirect('basket:basket_detail')
 
+
+@login_required(login_url='/users/login/')
 def basket_detail(request):
     basket = Basket(request)
-    return render(request, 'basket_app/detail.html', {'basket': basket})
+    return render(request, 'basket_app/basket.html', {'basket': basket})
