@@ -1,5 +1,4 @@
 from django import template
-# from catalog_app.models import Category
 from basket_app.forms import BasketAddProductForm
 
 register = template.Library()
