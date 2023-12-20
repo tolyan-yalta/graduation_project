@@ -67,12 +67,10 @@ class Basket(object):
         return sum(item['quantity'] for item in self.basket.values())
     
     def get_total_price(self):
-        """
-        Подсчет стоимости товаров в корзине.
-        """
+        """Подсчет стоимости товаров в корзине."""
         return sum(Decimal(item['price']) * item['quantity'] for item in self.basket.values())
     
     def clear(self):
-        # удаление корзины из сессии
+        """Удаление корзины из сессии"""
         del self.session[settings.BASKET_SESSION_ID]
         self.session.modified = True
