@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ваша корзина{% endblock %}
+
+{% block content %}
+    <h1>Ваша корзина</h1>
+    <table class="basket">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Unit price</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in basket %}
+            {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">
+                            {% if product.image %}
+                            <p><img src="{{ product.image.url }}" alt="My image"></p>
+                            {% else %}
+                                <img src="{% static 'catalog_app/images/pngtree-super-selling-product-tag-png-image_4477856.png' %}">
+                            {% endif %}"     
+                        </a>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td><a href="{% url 'basket:basket_remove' product.id%}">Удалить</a></td>
+                    <td class="num">${{ item.price }}</td>
+                    <td class="num">${{ item.total_price }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td>Всего</td>
+            <td colspan="4"></td>
+            <td class="num">{{ basket.get_total_price }} ₽</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url 'catalog:catalog' %}" class="button light">Продолжить покупки</a>
+        <a href="#" class="button">Проверить(Заглушка)</a>
+    </p>
+{% endblock %}
