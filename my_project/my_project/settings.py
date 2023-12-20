@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'index_app',
     'catalog_app',
     'about_app',
-    # 'users_app.apps.UsersAppConfig',
     'users_app',
+    'basket_app',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users_app.context_processors.get_menu_context',
+                'basket_app.context_processors.basket',
             ],
         },
     },
@@ -123,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -132,7 +134,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'catalog'
-# LOGIN_URL = 'users/login'
-# LOGOUT_REDIRECT_URL = 'users:login'
-LOGOUT_REDIRECT_URL = 'catalog'
+LOGIN_REDIRECT_URL = 'catalog:catalog'
+LOGIN_URL = 'users/login'
+LOGOUT_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = 'catalog:catalog'
+
+# The key used to store the bucket in the user's session
+BASKET_SESSION_ID = 'basket'
