@@ -6,9 +6,7 @@ from catalog_app.models import Product
 class Basket(object):
 
     def __init__(self, request):
-        """
-        Инициализируем корзину
-        """
+        """Инициализируем корзину"""
         self.session = request.session
         basket = self.session.get(settings.BASKET_SESSION_ID)
         if not basket:
@@ -17,9 +15,7 @@ class Basket(object):
         self.basket = basket
 
     def add(self, product, quantity=1, update_quantity=False):
-        """
-        Добавить продукт в корзину или обновить его количество.
-        """
+        """Добавить продукт в корзину или обновить его количество."""
         product_id = str(product.id)
         if product_id not in self.basket:
             self.basket[product_id] = {'quantity': 0,
@@ -31,24 +27,20 @@ class Basket(object):
         self.save()
 
     def save(self):
-        # Обновление сессии basket
+        """Обновление сессии basket"""
         self.session[settings.BASKET_SESSION_ID] = self.basket
         # Отметить сеанс как "измененный", чтобы убедиться, что он сохранен
         self.session.modified = True
         
     def remove(self, product):
-        """
-        Удаление товара из корзины.
-        """
+        """Удаление товара из корзины."""
         product_id = str(product.id)
         if product_id in self.basket:
             del self.basket[product_id]
             self.save()
 
     def __iter__(self):
-        """
-        Перебор элементов в корзине и получение продуктов из базы данных.
-        """
+        """Перебор элементов в корзине и получение продуктов из базы данных."""
         product_ids = self.basket.keys()
         # получение объектов product и добавление их в корзину
         products = Product.objects.filter(id__in=product_ids)
@@ -61,9 +53,7 @@ class Basket(object):
             yield item
 
     def __len__(self):
-        """
-        Подсчет всех товаров в корзине.
-        """
+        """Подсчет всех товаров в корзине."""
         return sum(item['quantity'] for item in self.basket.values())
     
     def get_total_price(self):
