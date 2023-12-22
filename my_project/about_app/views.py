@@ -24,11 +24,5 @@ def contacts(request):
     return render(request, 'about_app/contacts.html')
     # return HttpResponse(html)
 
-def gallery(request):
-    # html = """
-    # <h1>Страница "Галерея".</h1>
-    # <p>Это страница проекта "Галерея".</p>
-    # """
-    # logger.info("The gallery page has been uploaded.")
-    return render(request, 'about_app/gallery.html')
-    # return HttpResponse(html)
+# def gallery(request):
+#     return render(request, 'about_app/gallery.html')
