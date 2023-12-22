@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users_app',
     'basket_app',
     'orders_app',
+    'puml_generator',
 ]
 
 MIDDLEWARE = [
