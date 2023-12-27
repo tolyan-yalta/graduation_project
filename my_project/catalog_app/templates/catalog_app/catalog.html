@@ -5,28 +5,61 @@
 {% block title %}Каталог{% endblock %}
 
 {% block content %}
-    <h1>Страница "Каталог".</h1>
-    {% load static %}<img src="{% static 'catalog_app/images/logo.png' %}" alt="My image">
+    <h1>Каталог товаров</h1>
+    <!-- <h1>Страница "Каталог".</h1> -->
+    <!-- {% load static %}<img src="{% static 'catalog_app/images/logo.png' %}" alt="My image"> -->
     <!-- {% include 'catalog_app/includes/nav.html' %} -->
+    <div class="container">
 
-    {% if cat_selected == 0 or cat_selected is None %}
-        <li class="selected">Все категории</li>
-    {% else %}
-        <li><a href="{% url 'catalog:catalog' %}">Все категории</a></li>
-    {% endif %}
+                                    {% if cat_selected == 0 or cat_selected is None %}
+                                        <li>Все категории</li>
+                                    {% else %}
+                                        <li><a href="{% url 'catalog:catalog' %}">Все категории</a></li>
+                                    {% endif %}
 
-    {% show_categories cat_selected %}
+                                    {% show_categories cat_selected %}
 
-    <ul>
-        {% for product in products %}
-        <li>
-            <h2>{{ product.name }}</h2>
-            <!-- <p >{{ product.content }}</p> -->
-            <a href="{% url 'catalog:product_detail' product.id product.slug %}">{{ product.name }}</a><br>
-            <hr>
+        <div id="productsList" class="margin-botton-50">
+            <div class="row">
+                <div class="col-md-9">
 
-        </li>
-        {% endfor %}
-</ul>
 
+
+
+                                        {% for product in page_obj %}
+                                            <div class="products">
+                                                <div class="prod ">
+
+                                                    <div class="photo">
+                                                        <img src="{{ product.image.url }}" height="220" width="220" alt="фото"/>
+                                                    </div>
+                                                    <a class="link" href="{% url 'catalog:product_detail' product.id product.slug %}">{{ product.name }}</a><br>
+
+                                                    <!-- <div class="name">{{ product.name }}</div> -->
+
+                                                    <div class="products-item-price">
+                                                        <span class="products-item-price__value">{{ product.price }} ₽</span>
+                                                    </div>
+
+                                                    <div class="art">Арт. {{ product.id }}</div>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                <div>
+                                    <ul class="pagination">
+                                        <!-- <li class="disabled"><span>&laquo;</span></li> -->
+                                        {% for p in page_obj.paginator.page_range %}
+                                        
+                                        <!-- <li class="active"><span>1</span></li> -->
+                                        <li>
+                                            <a href="?page={{ p }}">{{ p }} </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
