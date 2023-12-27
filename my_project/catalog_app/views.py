@@ -2,15 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Product, Category
 from basket_app.forms import BasketAddProductForm
-# import logging
+from django.core.paginator import Paginator
 
-# logger = logging.getLogger(__name__)
-
-# categories_db = [
-#     {'id': 1, 'name': 'Хлорка1'},
-#     {'id': 2, 'name': 'Песок1'},
-#     {'id': 3, 'name': 'Щётки1'},
-# ]
 
 # def catalog(request):
 #     """Выводит все товары"""
@@ -35,26 +28,24 @@ from basket_app.forms import BasketAddProductForm
 def catalog(request):
     """Выводит все товары"""
     products = Product.objects.all()
-    data = {'products': products,}
-    return render(request, 'catalog_app/catalog.html', context=data)
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    # data = {'products': products,}
+    # return render(request, 'catalog_app/catalog.html', context=data)
+    return render(request, 'catalog_app/catalog.html', {'page_obj': page_obj})
 
-
-
-# def show_category(request, cat_id):
-#     data = {
-#         # 'title': 'Отображение по рубрикам',
-#         # 'menu': menu,
-#         # 'posts': data_db,
-#         'cat_selected': cat_id,
-#     }
-#     return render(request, 'catalog_app/catalog.html', context=data)
 
 def show_category(request, cat_slug):
     """Выводит товары выбранной категории"""
     category = get_object_or_404(Category, slug=cat_slug)
     products = Product.objects.filter(category_id=category.pk)
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     data = {'title': f'{category.name}',
-        'products': products,
+        # 'products': products,
+        'page_obj': page_obj,
         'cat_selected': category.pk,}
     return render(request, 'catalog_app/catalog.html', context=data)
 
