@@ -6,7 +6,6 @@
 
 {% block content %}
     <h1>Каталог товаров</h1>
-    <!-- {# % include 'catalog_app/includes/nav.html' %} -->
 
     <div class="container">
         <!-- Список категорий -->
@@ -59,21 +58,13 @@
                             </div>
                         </div>
                     {% endfor %}
-                    <!-- Пагинатор -->
-                    <div>
-                        <ul class="pagination">
-                            <!-- <li class="disabled"><span>&laquo;</span></li> -->
-                            {% for p in page_obj.paginator.page_range %}
-                            
-                            <!-- <li class="active"><span>1</span></li> -->
-                            <li>
-                                <a href="?page={{ p }}">{{ p }} </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
+        </div>
+        <!-- Пагинатор -->
+        <div>
+            {% include 'catalog_app/includes/pagination.html' %}  
         </div>
     </div>
 {% endblock %}
