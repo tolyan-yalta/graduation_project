@@ -2,6 +2,6 @@
     {% if cat.id == cat_selected %}
         <li class="selected">{{cat.name}}</li>
     {% else %}
-        <li><a href="{% url 'catalog:category' cat.slug %}">{{cat.name}}</a></li>
+        <li><a href="{% url 'catalog:products' cat.slug %}">{{cat.name}}</a></li>
     {% endif %}  
 {% endfor %}
