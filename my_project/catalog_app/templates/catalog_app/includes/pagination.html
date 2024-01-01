@@ -1,0 +1,46 @@
+<nav>
+    <ul class="pagination">
+        <!-- Указатель на первую страницу -->
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1"> << </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"></li>
+        {% endif %} 
+        <!-- Указатель на предыдущую страницу -->
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"></li>
+        {% endif %}
+        <!-- Список страниц (пагинатор) -->
+        <!-- От 2-х слева до 2-х справа -->
+        <!-- Текущая не активна (не ссылка) -->
+        {% for page in page_obj.paginator.page_range %}
+            {% if page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+                <li class="page-item {% if page_obj.number == page %} active {% endif %}">
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <!-- Указатель на следующую страницу -->
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"></li>
+        {% endif %} 
+        <!-- Указатель на последнюю страницу -->
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> >> </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"></li>
+        {% endif %} 
+    </ul>
+</nav>
