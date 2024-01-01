@@ -6,58 +6,72 @@
 
 {% block content %}
     <h1>Каталог товаров</h1>
-    <!-- <h1>Страница "Каталог".</h1> -->
-    <!-- {% load static %}<img src="{% static 'catalog_app/images/logo.png' %}" alt="My image"> -->
-    <!-- {% include 'catalog_app/includes/nav.html' %} -->
+    <!-- {# % include 'catalog_app/includes/nav.html' %} -->
+
     <div class="container">
+        <!-- Список категорий -->
+        {% if cat_selected == 0 or cat_selected is None %}
+            <li>Все категории</li>
+        {% else %}
+            <li><a href="{% url 'catalog:catalog' %}">Все категории</a></li>
+        {% endif %}
 
-                                    {% if cat_selected == 0 or cat_selected is None %}
-                                        <li>Все категории</li>
-                                    {% else %}
-                                        <li><a href="{% url 'catalog:catalog' %}">Все категории</a></li>
-                                    {% endif %}
+        {% show_categories cat_selected %}
 
-                                    {% show_categories cat_selected %}
-
+        <!-- Форма фильтров -->
+        <form action="{{ request.get_full_path }}" method="get">
+            <p class="text-white mx-3 mt-3">Сортировать:</p>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    По умолчанию
+                </label>
+            </div>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+                <label class="form-check-label" for="flexRadioDefault2">
+                    От дешевых к дорогим
+                </label>
+            </div>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+                <label class="form-check-label" for="flexRadioDefault3">
+                    От дорогих к дешевым
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+        </form>
+        <!-- Список товаров -->
         <div id="productsList" class="margin-botton-50">
             <div class="row">
                 <div class="col-md-9">
-
-
-
-
-                                        {% for product in page_obj %}
-                                            <div class="products">
-                                                <div class="prod ">
-
-                                                    <div class="photo">
-                                                        <img src="{{ product.image.url }}" height="220" width="220" alt="фото"/>
-                                                    </div>
-                                                    <a class="link" href="{% url 'catalog:product_detail' product.id product.slug %}">{{ product.name }}</a><br>
-
-                                                    <!-- <div class="name">{{ product.name }}</div> -->
-
-                                                    <div class="products-item-price">
-                                                        <span class="products-item-price__value">{{ product.price }} ₽</span>
-                                                    </div>
-
-                                                    <div class="art">Арт. {{ product.id }}</div>
-                                                </div>
-                                            </div>
-
-                                        {% endfor %}
-                                <div>
-                                    <ul class="pagination">
-                                        <!-- <li class="disabled"><span>&laquo;</span></li> -->
-                                        {% for p in page_obj.paginator.page_range %}
-                                        
-                                        <!-- <li class="active"><span>1</span></li> -->
-                                        <li>
-                                            <a href="?page={{ p }}">{{ p }} </a>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
+                    {% for product in page_obj %}
+                        <div class="products">
+                            <div class="prod ">
+                                <div class="photo">
+                                    <img src="{{ product.image.url }}" height="220" width="220" alt="фото"/>
                                 </div>
+                                <a class="link" href="{% url 'catalog:product_detail' product.id product.slug %}">{{ product.name }}</a><br>
+                                <div class="products-item-price">
+                                    <span class="products-item-price__value">{{ product.price }} ₽</span>
+                                </div>
+                                <!-- <div class="art">Арт. {# { product.id }}</div> -->
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!-- Пагинатор -->
+                    <div>
+                        <ul class="pagination">
+                            <!-- <li class="disabled"><span>&laquo;</span></li> -->
+                            {% for p in page_obj.paginator.page_range %}
+                            
+                            <!-- <li class="active"><span>1</span></li> -->
+                            <li>
+                                <a href="?page={{ p }}">{{ p }} </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
