@@ -67,11 +67,7 @@ def products(request, cat_slug=None):
         cat_selected = category.pk
 
     page_number = request.GET.get('page', 1)
-    on_available = request.GET.get('on_sale', None)
     order_by = request.GET.get('order_by', None)
-
-    if on_available:
-        products = products.filter(discount__gt=0)
 
     if order_by and order_by != "default":
         products = products.order_by(order_by)
