@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Product, Category
 from basket_app.forms import BasketAddProductForm
 from django.core.paginator import Paginator
+# from django.urls import reverse
 
 
 # def catalog(request):
@@ -25,28 +26,63 @@ from django.core.paginator import Paginator
 #     return render(request, 'catalog_app/catalog.html', context=data)
 #     # return HttpResponse(html)
 
+# def catalog(request):
+#     """Выводит все товары"""
+#     products = Product.objects.all()
+#     paginator = Paginator(products, 12)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     # data = {'products': products,}
+#     # return render(request, 'catalog_app/catalog.html', context=data)
+#     return render(request, 'catalog_app/catalog.html', {'page_obj': page_obj})
+
+
+# def show_category(request, cat_slug):
+#     """Выводит товары выбранной категории"""
+#     category = get_object_or_404(Category, slug=cat_slug)
+#     products = Product.objects.filter(category_id=category.pk)
+#     paginator = Paginator(products, 12)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     data = {'title': f'{category.name}',
+#         # 'products': products,
+#         'page_obj': page_obj,
+#         'cat_selected': category.pk,}
+#     return render(request, 'catalog_app/catalog.html', context=data)
+
+
 def catalog(request):
-    """Выводит все товары"""
-    products = Product.objects.all()
-    paginator = Paginator(products, 12)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    # data = {'products': products,}
-    # return render(request, 'catalog_app/catalog.html', context=data)
-    return render(request, 'catalog_app/catalog.html', {'page_obj': page_obj})
+    return HttpResponseRedirect('/catalog/products/all')
 
+def products(request, cat_slug=None):
+    """Выводит товары"""
+    if cat_slug == "all":
+        products = Product.objects.all()
+        title = "all"
+        cat_selected = None
+    else:
+        category = get_object_or_404(Category, slug=cat_slug)
+        products = Product.objects.filter(category_id=category.pk)
+        title = category.name
+        cat_selected = category.pk
 
-def show_category(request, cat_slug):
-    """Выводит товары выбранной категории"""
-    category = get_object_or_404(Category, slug=cat_slug)
-    products = Product.objects.filter(category_id=category.pk)
+    page_number = request.GET.get('page', 1)
+    on_available = request.GET.get('on_sale', None)
+    order_by = request.GET.get('order_by', None)
+
+    if on_available:
+        products = products.filter(discount__gt=0)
+
+    if order_by and order_by != "default":
+        products = products.order_by(order_by)
+
     paginator = Paginator(products, 12)
-    page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    data = {'title': f'{category.name}',
-        # 'products': products,
-        'page_obj': page_obj,
-        'cat_selected': category.pk,}
+    data = {'title': title,
+            'page_obj': page_obj,
+            'cat_selected': cat_selected,
+            }
+
     return render(request, 'catalog_app/catalog.html', context=data)
 
 
