@@ -8,8 +8,11 @@ app_name = "catalog"
 
 urlpatterns = [
     path('', views.catalog, name='catalog'),
+    # path('', views.products, name='index'),
+    # path('<slug:cat_slug>/', views.products, name='products'),
+    path('products/<slug:cat_slug>/', views.products, name='products'),
     # path('category/<int:cat_id>/', views.show_category, name='category'),
-    path('category/<slug:cat_slug>/', views.show_category, name='category'),
+    # path('category/<slug:cat_slug>/', views.show_category, name='category'),
     # path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     re_path(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$',
         views.product_detail, name='product_detail'),
