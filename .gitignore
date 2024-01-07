@@ -400,4 +400,14 @@ FodyWeavers.xsd
 # Ignore folder
 .venv
 
+# Ignore file
+.env
+.env.txt
+
+# Django
+*.log
+*.pyc
+db.sqlite3
+*_settings.py
+
 
