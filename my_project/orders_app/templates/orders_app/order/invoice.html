@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>{% if pdf_title %}{{ pdf_title }}{% else %}PDF{% endif %}</title>
+        <style type="text/css">
+            @font-face {
+                /* font-family: 'ArialUnicode'; */
+                font-family: 'Liberation';
+                /* Путь от корня проекта */
+                src: url("../my_project/orders_app/static/fonts/LiberationSerif-Regular.ttf") format('truetype');
+            }
+
+            body {
+                font-weight: 200;
+                font-size: 14px;
+                margin: 0;
+                /* font-family: "ArialUnicode", sans-serif; */
+                /* font-family: "ArialUnicode"; */
+                /* font-family: "Liberation"; */
+                font-family: "Liberation", Liberation Serif;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+                /* text-align: right;*/
+                padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'>Заказ #{{ order_id }}</p>
+            </div>
+        <div>
+        <div class='details'>
+            Имя: {{ first_name }}<br/>
+            Фамилия: {{ last_name }}<br/>
+            E-mail: {{ email }}<br/>
+            Адрес: {{ address }}<br/>
+            Почтовый индекс: {{ postal_code }}<br/>
+            Город: {{ city }}<br/>
+            Заказ создан: {{ created }}<br/>
+            <ul>
+                {% for item in items %}
+                    <li>
+                        {{ item.quantity }}x {{ item.product.name }}
+                        <span>{{ item.total_price }} Руб.</span>
+                    </li>
+                {% endfor %}
+            </ul>
+            Всего на сумму: {{ basket.get_total_price }} Руб.<br/>
+            <hr class='hrItem' />
+        </div>
+    </div>
+    </body>
+</html>
