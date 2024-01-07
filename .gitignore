@@ -407,7 +407,7 @@ FodyWeavers.xsd
 # Django
 *.log
 *.pyc
-db.sqlite3
-*_settings.py
+my_project/db.sqlite3
+work_settings.py
 
 
