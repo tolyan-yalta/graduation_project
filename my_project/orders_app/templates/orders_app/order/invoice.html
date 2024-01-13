@@ -65,12 +65,12 @@
             <ul>
                 {% for item in items %}
                     <li>
-                        {{ item.quantity }}x {{ item.product.name }}
-                        <span>{{ item.total_price }} Руб.</span>
+                        {{ item.product.name }} x {{ item.quantity }} шт.
+                        <span> на сумму {{ item.total_price }} Руб.</span>
                     </li>
                 {% endfor %}
             </ul>
-            Всего на сумму: {{ basket.get_total_price }} Руб.<br/>
+            Всего на сумму: {{ items.get_total_price }} Руб.<br/>
             <hr class='hrItem' />
         </div>
     </div>
