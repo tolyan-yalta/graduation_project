@@ -8,7 +8,8 @@ from xhtml2pdf import pisa
 from xhtml2pdf.files import pisaFileObject
 from django.http import HttpResponse
 
-from .tasks import order_created
+# from .tasks import order_created
+from django.core.mail import EmailMessage
 
 
 def order_create(request):
@@ -47,11 +48,16 @@ def order_create(request):
                 if pdf_status.err:
                     return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
             # применяем декорированную функцию
-            email = order_created(order)
+            # email = order_created(order, filename)
+            # order_created(order, filename)
+            email = EmailMessage(subject="Электронная копия чека", # f"Счет # {order.id}"
+                                body="Электронная копия чека",
+                                to=[order.email],)
             # добавляем к 'email' файл PDF
             email.attach_file(f"../my_project/orders_app/static/pdf/{filename}")
             # отправляем почту
-            email.send(fail_silently=True)
+            # email.send(fail_silently=True)
+            email.send()
             # очистка корзины
             basket.clear()
             return render(request, 'orders_app/order/created.html',
